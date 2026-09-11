@@ -1,0 +1,10 @@
+chroma_db/
+.env
+feedback.jsonl
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.langchain_cache.db
+secrets.json
+secrets.lock

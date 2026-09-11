@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme {
+  --color-owl-orange:      #F5820D;
+  --color-owl-orange-dark: #D96A00;
+  --color-owl-orange-soft: #FEF0E0;
+  --color-violet:          #7C5CBF;
+  --color-violet-dark:     #614A99;
+  --color-violet-soft:     #EDE8F8;
+  --color-cream:           #FFFBF4;
+  --color-cream-card:      #FFFFFF;
+  --color-ink:             #1C1A2E;
+  --color-slate-text:      #5A567A;
+  --color-mist:            #E4E0F0;
+  --color-error:           #C0392B;
+  --color-success:         #1A7F5A;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: var(--font-atkinson), 'Atkinson Hyperlegible', sans-serif;
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-size: 17px;
+    line-height: 1.75;
+    letter-spacing: 0.02em;
+  }
+
+  *:focus-visible {
+    outline: 3px solid var(--color-owl-orange-dark);
+    outline-offset: 3px;
+  }
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #D96A00;
+  border-radius: 2px;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .owl-idle, .owl-talking, .owl-thinking, .owl-talk,
+  .owl-thoughtful [data-testid="owl-hat-tassel"] { animation: none; }
+}
+
+@keyframes owl-idle-bob {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes owl-talk-bob {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  25% { transform: translateY(-2px) scale(1.01); }
+  75% { transform: translateY(2px) scale(0.99); }
+}
+@keyframes owl-think-spin {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+@keyframes owl-talk-beak {
+  0%, 100% { d: path('M33,47 Q40,50 47,47'); }
+  50% { d: path('M33,47 Q40,56 47,47'); }
+}
+@keyframes owl-hat-happy-bounce {
+  0% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(-6px) rotate(-3deg); }
+  60% { transform: translateY(2px) rotate(2deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+@keyframes owl-tassel-sway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(20deg); }
+}
+@keyframes owl-tassel-pendulum {
+  0%, 100% { transform: rotate(-25deg); }
+  50% { transform: rotate(25deg); }
+}
+
+@keyframes owl-tassel-thoughtful {
+  0%, 100% { transform: rotate(-10deg); }
+  50%       { transform: rotate(10deg); }
+}
+
+.owl-idle    { animation: owl-idle-bob   3s ease-in-out infinite; }
+.owl-talking { animation: owl-talk-bob   0.4s ease-in-out infinite; }
+.owl-thinking{ animation: owl-think-spin 3s ease-in-out infinite; }
+.owl-talk    { animation: owl-talk-beak  0.24s ease-in-out; }
+
+.owl-thoughtful [data-testid="owl-hat-tassel"] {
+  transform-origin: 120px 32px;
+  animation: owl-tassel-thoughtful 2.2s ease-in-out infinite;
+}
+
+/* Moved to owl-* classes above */
+
+/* Sidebar animations */
+.sidebar-section-content {
+  overflow: hidden;
+  transition: max-height 0.2s ease, opacity 0.2s ease;
+}
+
+.sidebar-section-content[aria-hidden="true"] {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* Mobile drawer animations */
+@media (max-width: 767px) {
+  .sidebar-drawer {
+    animation: slide-in-left 0.2s ease;
+  }
+
+  .sidebar-overlay {
+    animation: fade-in 0.2s ease;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Respect prefers-reduced-motion for sidebar animations */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-section-content,
+  .sidebar-drawer,
+  .sidebar-overlay {
+    animation: none;
+    transition: none;
+  }
+}
