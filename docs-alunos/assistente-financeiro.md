@@ -60,7 +60,7 @@ import os
 import requests
 
 BASE = "https://assistente-financeiro-testes.onrender.com"
-TIMEOUT = 120  # a primeira chamada depois de o servidor hibernar pode passar de 1 minuto
+TIMEOUT = 180  # a primeira chamada depois de o servidor hibernar pode passar de 2 minutos
 
 
 def login(usuario: str, senha: str) -> str:
@@ -96,7 +96,7 @@ print(resposta["sources"])
 | Situação | O que acontece | O que fazer |
 |---|---|---|
 | Mais de 20 chamadas ao `/chat` por minuto na mesma conta | `429`, com header `Retry-After` (segundos até poder tentar de novo) | Respeitar o `Retry-After` e espaçar as chamadas |
-| Servidor hibernado (fica parado alguns minutos e dorme) | A primeira chamada pode levar **mais de 1 minuto** — já foi medido 80 s | Timeout de 120 s ou mais; chamar `GET /health` antes de rodar a suíte |
+| Servidor hibernado (fica parado alguns minutos e dorme) | A primeira chamada pode levar **mais de 2 minutos** — já foi medido 142 s | Timeout de 180 s; chamar `GET /health` e esperar a resposta antes de rodar a suíte; se a primeira pergunta depois disso vier com erro, repetir |
 | Token com mais de 30 minutos | `403` com "Token inválido" | Fazer login de novo |
 | Cota do LLM esgotada — **a cota é uma só para a turma inteira** | **`200`**, com `message` "Cota da API do provedor de IA esgotada…" | Isso **não** é resposta da AURA: detecte, descarte e tente mais tarde. Não conte como alucinação |
 | Erro interno ou demora do LLM | **`200`**, com `message` "Ocorreu um erro ao processar sua mensagem…" ou "Ops, demorei demais para responder…" | Mesma coisa: detecte e trate como falha de infraestrutura, não de conteúdo |
